@@ -1,0 +1,290 @@
+USE [master]
+GO
+/****** Object:  Database [DatingDB]    Script Date: 1/9/2024 4:04:43 PM ******/
+CREATE DATABASE [DatingDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'DatingDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\DatingDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'DatingDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\DatingDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [DatingDB] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [DatingDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [DatingDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [DatingDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [DatingDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [DatingDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [DatingDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [DatingDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [DatingDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [DatingDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [DatingDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [DatingDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [DatingDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [DatingDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [DatingDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [DatingDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [DatingDB] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [DatingDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [DatingDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [DatingDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [DatingDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [DatingDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [DatingDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [DatingDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [DatingDB] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [DatingDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [DatingDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [DatingDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [DatingDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [DatingDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [DatingDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [DatingDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [DatingDB] SET QUERY_STORE = OFF
+GO
+USE [DatingDB]
+GO
+/****** Object:  Table [dbo].[Gender]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Gender](
+	[GenderId] [bigint] IDENTITY(1,1) NOT NULL,
+	[SexType] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED 
+(
+	[GenderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Likes]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Likes](
+	[LikeId] [bigint] NOT NULL,
+	[SenderUserId] [bigint] NOT NULL,
+	[RecipientUserId] [bigint] NOT NULL,
+	[LikeStatus] [nchar](10) NOT NULL,
+	[Timestamp] [timestamp] NOT NULL,
+ CONSTRAINT [PK_Likes] PRIMARY KEY CLUSTERED 
+(
+	[LikeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Location]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Location](
+	[LocationId] [bigint] IDENTITY(1,1) NOT NULL,
+	[UserId] [bigint] NOT NULL,
+	[Latitude] [decimal](10, 8) NOT NULL,
+	[Longitude] [decimal](10, 8) NOT NULL,
+	[City] [nvarchar](50) NOT NULL,
+	[State] [nvarchar](50) NOT NULL,
+	[Country] [nvarchar](50) NOT NULL,
+	[Timestamp] [timestamp] NOT NULL,
+ CONSTRAINT [PK_Location] PRIMARY KEY CLUSTERED 
+(
+	[LocationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Message]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Message](
+	[MessageId] [bigint] IDENTITY(1,1) NOT NULL,
+	[SenderUserId] [bigint] NOT NULL,
+	[RecipientUserId] [bigint] NOT NULL,
+	[Timestamp] [timestamp] NOT NULL,
+	[MessageContent] [text] NOT NULL,
+ CONSTRAINT [PK_Message] PRIMARY KEY CLUSTERED 
+(
+	[MessageId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[UserId] [bigint] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+	[JoinDate] [datetime] NOT NULL,
+	[LastName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserGender]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserGender](
+	[UserGenderId] [bigint] IDENTITY(1,1) NOT NULL,
+	[UserId] [bigint] NOT NULL,
+	[GenderId] [bigint] NOT NULL,
+ CONSTRAINT [PK_UserGender] PRIMARY KEY CLUSTERED 
+(
+	[UserGenderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserProfile]    Script Date: 1/9/2024 4:04:43 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserProfile](
+	[ProfileId] [bigint] IDENTITY(1,1) NOT NULL,
+	[UserId] [bigint] NOT NULL,
+	[GenderId] [bigint] NOT NULL,
+	[DOB] [datetime] NOT NULL,
+	[Bio] [text] NULL,
+	[ProfilePic] [nvarchar](max) NULL,
+ CONSTRAINT [PK_UserProfile] PRIMARY KEY CLUSTERED 
+(
+	[ProfileId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Gender] ON 
+GO
+INSERT [dbo].[Gender] ([GenderId], [SexType]) VALUES (1, N'Male')
+GO
+INSERT [dbo].[Gender] ([GenderId], [SexType]) VALUES (2, N'Female')
+GO
+INSERT [dbo].[Gender] ([GenderId], [SexType]) VALUES (3, N'Other')
+GO
+SET IDENTITY_INSERT [dbo].[Gender] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Message] ON 
+GO
+INSERT [dbo].[Message] ([MessageId], [SenderUserId], [RecipientUserId], [MessageContent]) VALUES (1, 4, 2, N'hello there')
+GO
+SET IDENTITY_INSERT [dbo].[Message] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([UserId], [FirstName], [Email], [Password], [JoinDate], [LastName], [Age]) VALUES (2, N'Jeff', N'jeff@Gmail.com', N'thatguy', CAST(N'2022-12-24T00:00:00.000' AS DateTime), N'kobe', 26)
+GO
+INSERT [dbo].[User] ([UserId], [FirstName], [Email], [Password], [JoinDate], [LastName], [Age]) VALUES (3, N'Kent', N'clarkkent@super.man', N'alsothatguy', CAST(N'2023-04-30T00:00:00.000' AS DateTime), N'clark', 22)
+GO
+INSERT [dbo].[User] ([UserId], [FirstName], [Email], [Password], [JoinDate], [LastName], [Age]) VALUES (4, N'jessica', N'jessica@struggling.com', N'thatgirl', CAST(N'2023-04-30T00:00:00.000' AS DateTime), N'simp', 24)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserGender] ON 
+GO
+INSERT [dbo].[UserGender] ([UserGenderId], [UserId], [GenderId]) VALUES (1, 2, 1)
+GO
+INSERT [dbo].[UserGender] ([UserGenderId], [UserId], [GenderId]) VALUES (2, 3, 1)
+GO
+INSERT [dbo].[UserGender] ([UserGenderId], [UserId], [GenderId]) VALUES (3, 4, 2)
+GO
+SET IDENTITY_INSERT [dbo].[UserGender] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserProfile] ON 
+GO
+INSERT [dbo].[UserProfile] ([ProfileId], [UserId], [GenderId], [DOB], [Bio], [ProfilePic]) VALUES (2, 2, 1, CAST(N'2001-12-02T00:00:00.000' AS DateTime), NULL, NULL)
+GO
+INSERT [dbo].[UserProfile] ([ProfileId], [UserId], [GenderId], [DOB], [Bio], [ProfilePic]) VALUES (3, 4, 2, CAST(N'2003-06-04T00:00:00.000' AS DateTime), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[UserProfile] OFF
+GO
+ALTER TABLE [dbo].[Likes]  WITH CHECK ADD  CONSTRAINT [FK_Likes_Likes] FOREIGN KEY([RecipientUserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[Likes] CHECK CONSTRAINT [FK_Likes_Likes]
+GO
+ALTER TABLE [dbo].[Likes]  WITH CHECK ADD  CONSTRAINT [FK_Likes_User] FOREIGN KEY([SenderUserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[Likes] CHECK CONSTRAINT [FK_Likes_User]
+GO
+ALTER TABLE [dbo].[Location]  WITH CHECK ADD  CONSTRAINT [FK_Location_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[Location] CHECK CONSTRAINT [FK_Location_User]
+GO
+ALTER TABLE [dbo].[Message]  WITH CHECK ADD  CONSTRAINT [FK_Message_User] FOREIGN KEY([RecipientUserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[Message] CHECK CONSTRAINT [FK_Message_User]
+GO
+ALTER TABLE [dbo].[Message]  WITH CHECK ADD  CONSTRAINT [FK_Message_User1] FOREIGN KEY([SenderUserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[Message] CHECK CONSTRAINT [FK_Message_User1]
+GO
+ALTER TABLE [dbo].[UserGender]  WITH CHECK ADD  CONSTRAINT [FK_UserGender_Gender] FOREIGN KEY([GenderId])
+REFERENCES [dbo].[Gender] ([GenderId])
+GO
+ALTER TABLE [dbo].[UserGender] CHECK CONSTRAINT [FK_UserGender_Gender]
+GO
+ALTER TABLE [dbo].[UserGender]  WITH CHECK ADD  CONSTRAINT [FK_UserGender_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[UserGender] CHECK CONSTRAINT [FK_UserGender_User]
+GO
+ALTER TABLE [dbo].[UserProfile]  WITH CHECK ADD  CONSTRAINT [FK_UserProfile_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([UserId])
+GO
+ALTER TABLE [dbo].[UserProfile] CHECK CONSTRAINT [FK_UserProfile_User]
+GO
+USE [master]
+GO
+ALTER DATABASE [DatingDB] SET  READ_WRITE 
+GO

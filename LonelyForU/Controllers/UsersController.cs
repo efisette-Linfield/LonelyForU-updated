@@ -21,7 +21,7 @@ namespace LonelyForU.Controllers
         }
 
 
-        [HttpGet("[action]/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
           if (_context.Users == null)

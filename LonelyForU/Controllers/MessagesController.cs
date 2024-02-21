@@ -90,20 +90,19 @@ namespace LonelyForU.Controllers
             return NoContent();
         }
 
-        // POST: api/Messages
         [HttpPost]
-        public async Task<ActionResult<Message>> PostMessage(simpleMessage message)
+        public async Task<ActionResult<Message>> PostMessage([FromBody] SimpleMessage model)
         {
-          if (_context.Messages == null)
-          {
-              return Problem("Entity set 'DatingDbContext.Messages'  is null.");
+            if (_context.Messages == null)
+            {
+                return Problem("Entity set 'DatingDbContext.Messages' is null.");
             }
 
             var toUpload = new Message
             {
-                SenderUserId = message.senderUserId,
-                RecipientUserId = message.recipientId,
-                MessageContent = message.messageContent
+                SenderUserId = model.one,
+                RecipientUserId = model.two,
+                MessageContent = model.Message
             };
 
             _context.Messages.Add(toUpload);

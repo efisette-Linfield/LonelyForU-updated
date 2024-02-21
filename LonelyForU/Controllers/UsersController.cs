@@ -50,7 +50,7 @@ namespace LonelyForU.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("[action]{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(long id, User user)
         {
             if (id != user.UserId)
@@ -81,7 +81,7 @@ namespace LonelyForU.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("[action]")]
+        [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
           if (_context.Users == null)

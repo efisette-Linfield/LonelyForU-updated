@@ -21,7 +21,7 @@ namespace LonelyForU.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
           if (_context.Users == null)
@@ -32,7 +32,7 @@ namespace LonelyForU.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("[action]/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
           if (_context.Users == null)
